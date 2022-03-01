@@ -27,7 +27,7 @@ We recommend using a SLAM algorithm that preserves obstacle correspondences. An 
 The following software from other developers has been used in this project.
 
 ##### Kabsch Metric
-Kromann: https://github.com/charnley/rmsd
+Kromann: https://github.com/charnley/rmsd <br>
 (BSD-2 license)
 
 ##### Earth Mover's Distance
