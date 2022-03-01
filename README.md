@@ -28,6 +28,7 @@ The following software from other developers has been used in this project.
 
 ##### Kabsch Metric
 Kromann: https://github.com/charnley/rmsd
+(BSD-2 license)
 
 ##### Earth Mover's Distance
 Rubner: https://robotics.stanford.edu/~rubner/emd/default.htm <br>
@@ -35,4 +36,4 @@ Rubner: https://robotics.stanford.edu/~rubner/emd/default.htm <br>
 
 ##### Sample SLAM Implementation
 Sakai et al.: https://github.com/AtsushiSakai/PythonRobotics/blob/master/SLAM/FastSLAM1/fast_slam1.py <br>
-(Modifications marked)
+(MIT license, Modifications marked)
