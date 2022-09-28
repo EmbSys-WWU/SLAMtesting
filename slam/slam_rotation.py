@@ -33,7 +33,7 @@ class Particle:
 
     def __init__(self, n_landmark, initial_position):
         self.w = 1.0 / N_PARTICLE
-        self.x = initial_position[0]            # Edited by Philip Tasche
+        self.x = initial_position[0]            # Edited by PAPER AUTHORS
         self.y = initial_position[1]
         self.yaw = initial_position[2]
         # landmark x-y positions
@@ -47,7 +47,7 @@ def fast_slam1(particles, u, z):
 
     particles = update_with_observation(particles, z)
 
-    if u[0] != 0 or u[1] != 0 or z.size != 0:   # Edited by Philip Tasche
+    if u[0] != 0 or u[1] != 0 or z.size != 0:   # Edited by PAPER AUTHORS
         particles = resampling(particles)
 
     return particles
@@ -91,7 +91,7 @@ def predict_particles(particles, u):
         px[1, 0] = particles[i].y
         px[2, 0] = particles[i].yaw
         noise = (np.random.randn(1, 2) @ R ** 0.5).T  # add noise
-        ud = u + noise if u[0] != 0 or u[1] != 0 else u     # Edited by Philip Tasche
+        ud = u + noise if u[0] != 0 or u[1] != 0 else u     # Edited by PAPER AUTHORS
         px = motion_model(px, ud)
         particles[i].x = px[0, 0]
         particles[i].y = px[1, 0]

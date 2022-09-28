@@ -19,14 +19,14 @@
 /* DEFINITIONS */
 //#define MAX_SIG_SIZE   100
 //#define MAX_ITERATIONS 500
-#define MAX_SIG_SIZE   10000    /* Edited by Philip Tasche */
+#define MAX_SIG_SIZE   10000    /* Edited by PAPER AUTHORS */
 #define MAX_ITERATIONS 10000    /*                         */
 #define INFINITY       1e20
 #define EPSILON        1e-6
 
 /*****************************************************************************/
 /* feature_t SHOULD BE MODIFIED BY THE USER TO REFLECT THE FEATURE TYPE      */
-/* Edited by Philip Tasche                                                   */
+/* Edited by PAPER AUTHORS                                                   */
 typedef struct
 {
   int x;              /* x-coordinate */
@@ -51,7 +51,7 @@ typedef struct
 } flow_t;
 
 /*  -----------------------------------------------------------------------  */
-/*  ----------------------  EDITED BY PHILIP TASCHE  ----------------------  */
+/*  ----------------------  EDITED BY PAPER AUTHORS  ----------------------  */
 /*  -----------------------------------------------------------------------  */
 
 float metric(int    *xs1,

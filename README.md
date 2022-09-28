@@ -8,11 +8,11 @@ This project is not specific to any SLAM algorithm. The only prerequisite for ap
 
 ### Map
 
-We support only feature-based map. For simplicity, all maps are squares of a given side length and all features are point locations.
+We support only feature-based maps. For simplicity, all maps are squares of a given side length and all features are point locations.
 
 ### Motion Model
 
-We support both odometry and velocity motion models. To switch from one to the other, switch around the methods for test case generation implemented in ``generate_testcase.py``.
+We support both odometry and velocity motion models. To switch from one to the other, switch around the methods for test case generation implemented in ``generate_testcase.py``. However, as the evaluation was done with the odometry motion model, it is better tested.
 
 ### Sensors
 
@@ -32,8 +32,8 @@ Kromann: https://github.com/charnley/rmsd <br>
 
 ##### Earth Mover's Distance
 Rubner: https://robotics.stanford.edu/~rubner/emd/default.htm <br>
-(Modifications marked)
+(Modifications by paper authors marked)
 
 ##### Sample SLAM Implementation
 Sakai et al.: https://github.com/AtsushiSakai/PythonRobotics/blob/master/SLAM/FastSLAM1/fast_slam1.py <br>
-(MIT license, Modifications marked)
+(MIT license, Modifications by paper authors marked)

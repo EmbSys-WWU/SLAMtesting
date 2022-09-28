@@ -78,7 +78,7 @@ static void printSolution();
 #endif
 
 /*  -----------------------------------------------------------------------  */
-/*  ----------------------  EDITED BY PHILIP TASCHE  ----------------------  */
+/*  ----------------------  EDITED BY PAPER AUTHORS  ----------------------  */
 /*  -----------------------------------------------------------------------  */
 
 float euclidean_distance(feature_t *t1, feature_t *t2)
@@ -706,7 +706,7 @@ static void russel(double *S, double *D)
   node1_t vHead, *CurV, *PrevV;
   node1_t *PrevUMinI, *PrevVMinJ, *Remember;
   
-  // Edited by Philip Tasche
+  // Edited by PAPER AUTHORS
   Delta = (double *)malloc((_n1 + 1) * (_n2 + 1) * sizeof(double));
 
   /* INITIALIZE THE ROWS LIST (Ur), AND THE COLUMNS LIST (Vr) */
