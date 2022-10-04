@@ -1,6 +1,6 @@
 # Coverage-Driven SLAM Testing
 
-This project contains a systematic test data generator with accompanying simulation environment for SLAM testing. It generates a partitioning of the input space based on the given equivalence class boundaries (to modify, see ``testsuite.py``) and automatically creates a test suite that covers all equivalence classes.
+This project contains a systematic test data generator with accompanying simulation environment for SLAM testing. It generates a partitioning of the input space based on the given equivalence class boundaries and automatically creates a test suite that covers all equivalence classes.
 
 ## Supported SLAM Algorithms and Features
 
@@ -21,6 +21,12 @@ We support only algorithms based on range-and-bearing sensor information.
 ### Obstacle Correspondence
 
 We recommend using a SLAM algorithm that preserves obstacle correspondences. An obstacle's ID is passed to the algorithm upon observation. If you want to use this project for an algorithm that does not preserve this ID, you must switch the error metric (see ``evaluation_metric.py``) in ``main.py``. Without obstacle correspondences, our implementation provides the Earth Mover's Distance (see below) as a default metric; however, this is less accurate and does not control for errors due to rotation and translation of your local coordinate system.
+
+## Parameter Adjustment
+
+The test generator is based on the parameter definitions laid out in `testsuite.py`. Each parameter declares three constants that are relevant for equivalence class partitioning. These are the fields `<parameter>_LOWER_BOUND`, `<parameter>_UPPER_BOUND` and the list `<parameter>_BOUNDARIES`. The domain of the parameter is characterised as the interval between the lower and upper bounds. The values from the `<parameter>_BOUNDARIES` list signal boundaries between equivalence classes. From these values, equivalence classes are automatically generated. To adjust the equivalence classes, simply edit the relevant constants.
+
+For three parameters, namely directionality, rotation error and inactivity, the equivalence classes are fixed by the nature of the parameter. If needed, these need to be edited manually. For the parameters relating to measurement or odometry errors, namely variance, bias and outlier probability, the equivalence class {0} is automatically added to the equivalence classes and needs to be removed if not desired.
 
 ## Software Used
 
