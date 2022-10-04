@@ -20,7 +20,8 @@ class Simulator:
                  angle_bias: float,
                  angle_variance: float,
                  outlier_probability: float,
-                 rotational_error: int) -> List[Observation]:
+                 rotational_error: int,
+                 sensor_fov: float) -> List[Observation]:
         """
         Generates a simulated view in the map from a given position
 
@@ -32,6 +33,7 @@ class Simulator:
         :param angle_variance: Variance of the angle sensor
         :param outlier_probability: Probability of an outlier (max range reading or obstructed reading)
         :param rotational_error: Multiple of 360° to be added to angular measurements and odometry
+        :param sensor_fov: Field of view of the sensor
         :return: A list of observations
         """
 
@@ -39,8 +41,8 @@ class Simulator:
 
         for o in self.test_map.obstacles:
             dist = hypot(o.x - robot.x, o.y - robot.y)
-            if dist < sensor_range:
-                angle = (atan2(o.y - robot.y, o.x - robot.x) - robot.rot + pi) % (2 * pi) - pi
+            angle = (atan2(o.y - robot.y, o.x - robot.x) - robot.rot + pi) % (2 * pi) - pi
+            if dist < sensor_range and min(angle, 2 * pi - angle) < sensor_fov:
 
                 # Add uncertainty to the observation
                 perceived_distance_mean = dist + range_bias

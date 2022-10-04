@@ -1,3 +1,4 @@
+from math import pi
 from typing import List, Callable
 
 from random import uniform, randint, random, choice
@@ -81,6 +82,21 @@ for b in SYMMETRY_BOUNDARIES:
     SYMMETRY_EQUIVALENCE_CLASSES.append(EquivalenceClass(low, b))
     low = b
 SYMMETRY_EQUIVALENCE_CLASSES.append(EquivalenceClass(low, SYMMETRY_UPPER_BOUND))
+
+# ========== SENSOR FOV ==========
+SENSOR_FOV_LOWER_BOUND = 0.25 * pi
+SENSOR_FOV_UPPER_BOUND = pi
+SENSOR_FOV_BOUNDARIES = [0.5 * pi]
+
+SENSOR_FOV_DEFAULT = 0.5 * pi
+
+# Generating equivalence classes
+SENSOR_FOV_EQUIVALENCE_CLASSES = []
+low = SENSOR_FOV_LOWER_BOUND
+for b in SENSOR_FOV_BOUNDARIES:
+    SENSOR_FOV_EQUIVALENCE_CLASSES.append(EquivalenceClass(low, b))
+    low = b
+SENSOR_FOV_EQUIVALENCE_CLASSES.append(EquivalenceClass(low, SENSOR_FOV_UPPER_BOUND))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # The following factors of uncertainty should all include their own equivalence class for the case that error = 0.
@@ -218,6 +234,7 @@ class TestSuite:
         inactivities = INACTIVITY_EQUIVALENCE_CLASSES.copy()
         rotations = ROTATION_EQUIVALENCE_CLASSES.copy()
         directions = DIRECTIONALITY_EQUIVALENCE_CLASSES.copy()
+        sensor_fovs = SENSOR_FOV_EQUIVALENCE_CLASSES.copy()
 
         for i in range(self.number_of_testcases):
 
@@ -271,6 +288,11 @@ class TestSuite:
             if not directions:
                 directions = DIRECTIONALITY_EQUIVALENCE_CLASSES.copy()
 
+            sensor_fov = choice(sensor_fovs)
+            sensor_fovs.remove(sensor_fov)
+            if not sensor_fovs:
+                sensor_fovs = SENSOR_FOV_EQUIVALENCE_CLASSES.copy()
+
             distance_variance = variance.select()
             angle_variance = distance_variance * DIST_TO_ANGLE
             distance_bias = bias.select()
@@ -291,7 +313,8 @@ class TestSuite:
                                                     rotational_error=rotation.select(),
                                                     add_inactivity=inactivity.select(),
                                                     symmetry=symmetry.select(),
-                                                    directional_traverse=bool(directionality.select())))
+                                                    directional_traverse=bool(directionality.select()),
+                                                    sensor_fov=sensor_fov.select()))
 
     def generate_random(self):
         """
@@ -324,7 +347,9 @@ class TestSuite:
                                                     add_inactivity=choice(INACTIVITY_EQUIVALENCE_CLASSES).select(),
                                                     symmetry=uniform(SYMMETRY_LOWER_BOUND,
                                                                      SYMMETRY_UPPER_BOUND),
-                                                    directional_traverse=(random() < 0.5)))
+                                                    directional_traverse=(random() < 0.5),
+                                                    sensor_fov=uniform(SENSOR_FOV_LOWER_BOUND,
+                                                                       SENSOR_FOV_UPPER_BOUND)))
 
     def generate_fixed(self):
         """
@@ -348,7 +373,8 @@ class TestSuite:
                                                     rotational_error=ROTATION_DEFAULT,
                                                     add_inactivity=INACTIVITY_DEFAULT,
                                                     symmetry=SYMMETRY_DEFAULT,
-                                                    directional_traverse=bool(DIRECTIONALITY_DEFAULT)))
+                                                    directional_traverse=bool(DIRECTIONALITY_DEFAULT),
+                                                    sensor_fov=SENSOR_FOV_DEFAULT))
 
     def execute(self, slam_factory: Callable[[int], SLAMAlgorithm], metric: Callable[[Map, Map], float]) -> List[float]:
         """

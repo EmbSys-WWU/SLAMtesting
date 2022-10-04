@@ -32,7 +32,8 @@ def generate_testcase(path_length: int,
                       rotational_error: int,
                       add_inactivity: int,
                       symmetry: float,
-                      directional_traverse: bool) -> TestCase:
+                      directional_traverse: bool,
+                      sensor_fov: float) -> TestCase:
     """
     Automatically generates a test case based on the given parameters
 
@@ -53,6 +54,7 @@ def generate_testcase(path_length: int,
     :param add_inactivity: Number of initial runs without any information, to check resistance to inactivity
     :param symmetry: Fraction of landmarks that are to be placed in a (point) symmetrical manner
     :param directional_traverse: Determines whether the robot's trajectory should be unidirectional or random
+    :param sensor_fov: Sensor field of view of the robot
     :return: A test case following the specifications
     """
 
@@ -75,7 +77,8 @@ def generate_testcase(path_length: int,
                                                   outlier_probability,
                                                   rotational_error,
                                                   add_inactivity,
-                                                  directional_traverse)
+                                                  directional_traverse,
+                                                  sensor_fov)
 
     return TestCase(test_map, sensor_trace)
 
@@ -152,7 +155,8 @@ def generate_odometry_sensor_trace(test_map: Map,
                                    outlier_probability: float,
                                    rotational_error: int,
                                    add_inactivity: int,
-                                   directional_traverse: bool) -> SensorTrace:
+                                   directional_traverse: bool,
+                                   sensor_fov: float) -> SensorTrace:
     """
     Automatically generates a path through the given map and a corresponding sensor trace
 
@@ -171,6 +175,7 @@ def generate_odometry_sensor_trace(test_map: Map,
     :param rotational_error: Multiple of 360° to be added to angular measurements and odometry
     :param add_inactivity: Number of initial runs without any information, to check resistance to inactivity
     :param directional_traverse: Determines whether the robot's trajectory should be unidirectional or random
+    :param sensor_fov: Sensor field of view of the robot
     :return: The sensor trace corresponding to a path through the given map with the given properties
     """
 
@@ -188,7 +193,8 @@ def generate_odometry_sensor_trace(test_map: Map,
                                 sensor_angle_bias,
                                 sensor_angle_variance,
                                 outlier_probability,
-                                rotational_error)
+                                rotational_error,
+                                sensor_fov)
     test_map.visit([o.obstacle for o in observations])
     trace.add_step(TimeStep(Odometry(0, 0, 0), observations), robot.x, robot.y)
 
@@ -219,7 +225,8 @@ def generate_odometry_sensor_trace(test_map: Map,
                           odometry_heading_bias,
                           odometry_heading_variance,
                           outlier_probability,
-                          rotational_error)
+                          rotational_error,
+                          sensor_fov)
 
     # Stop after half the run to add a period of inactivity
     index = i
@@ -253,7 +260,8 @@ def generate_odometry_sensor_trace(test_map: Map,
                           odometry_heading_bias,
                           odometry_heading_variance,
                           outlier_probability,
-                          rotational_error)
+                          rotational_error,
+                          sensor_fov)
 
     print("Done")
 
@@ -274,7 +282,8 @@ def add_odometry_step(test_map: Map,
                       odometry_heading_bias: float,
                       odometry_heading_variance: float,
                       outlier_probability: float,
-                      rotational_error: int) -> None:
+                      rotational_error: int,
+                      sensor_fov: float) -> None:
     """
     Adds one time step on the given map to the given sensor trace
 
@@ -294,6 +303,7 @@ def add_odometry_step(test_map: Map,
     :param odometry_heading_variance: Variance in angular heading after movement
     :param outlier_probability: Probability of an outlier of some sort
     :param rotational_error: Determines how often 2*pi should be added to angles
+    :param sensor_fov: Sensor field of view of the robot
     """
 
     # This is not the angle straight to the obstacle, since the robot moves forward first, but it will eventually
@@ -322,7 +332,8 @@ def add_odometry_step(test_map: Map,
                                 sensor_angle_bias,
                                 sensor_angle_variance,
                                 outlier_probability,
-                                rotational_error)
+                                rotational_error,
+                                sensor_fov)
 
     # Mark visited obstacles as visited
     test_map.visit([o.obstacle for o in observations])
@@ -347,7 +358,8 @@ def generate_velocity_sensor_trace(test_map: Map,
                                    outlier_probability: float,
                                    rotational_error: int,
                                    add_inactivity: int,
-                                   directional_traverse: bool) -> SensorTrace:
+                                   directional_traverse: bool,
+                                   sensor_fov: float) -> SensorTrace:
     """
     Automatically generates a path through the given map and a corresponding sensor trace
 
@@ -366,6 +378,7 @@ def generate_velocity_sensor_trace(test_map: Map,
     :param rotational_error: Multiple of 360° to be added to angular measurements and odometry
     :param add_inactivity: Number of initial runs without any information, to check resistance to inactivity
     :param directional_traverse: Determines whether the robot's trajectory should be unidirectional or random
+    :param sensor_fov: Sensor field of view of the robot
     :return: The sensor trace corresponding to a path through the given map with the given properties
     """
 
@@ -383,7 +396,8 @@ def generate_velocity_sensor_trace(test_map: Map,
                                 sensor_angle_bias,
                                 sensor_angle_variance,
                                 outlier_probability,
-                                rotational_error)
+                                rotational_error,
+                                sensor_fov)
     test_map.visit([o.obstacle for o in observations])
     trace.add_step(TimeStep(Velocity(0, 0), observations), robot.x, robot.y)
 
@@ -423,7 +437,8 @@ def generate_velocity_sensor_trace(test_map: Map,
                                     sensor_angle_bias,
                                     sensor_angle_variance,
                                     outlier_probability,
-                                    rotational_error)
+                                    rotational_error,
+                                    sensor_fov)
 
         # Mark visited obstacles as visited
         test_map.visit([o.obstacle for o in observations])
@@ -473,7 +488,8 @@ def generate_velocity_sensor_trace(test_map: Map,
                                     sensor_angle_bias,
                                     sensor_angle_variance,
                                     outlier_probability,
-                                    rotational_error)
+                                    rotational_error,
+                                    sensor_fov)
 
         # Mark visited obstacles as visited
         test_map.visit([o.obstacle for o in observations])

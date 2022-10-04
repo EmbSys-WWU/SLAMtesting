@@ -9,7 +9,8 @@ from slam import fastslam
 from testsuite import TestSuite
 
 
-FILE_NAME = 'test_suites/suites.pkl'
+BINARY_FILE_NAME = 'test_suites/suites.pkl'
+RESULT_FILE_NAME = 'execution_results/results.txt'
 
 
 def generate_test_suites(f: str = None) -> List[TestSuite]:
@@ -21,7 +22,7 @@ def generate_test_suites(f: str = None) -> List[TestSuite]:
     """
 
     if f is None:
-        file_name = FILE_NAME
+        file_name = BINARY_FILE_NAME
     else:
         file_name = f
 
@@ -51,13 +52,14 @@ def generate_test_suites(f: str = None) -> List[TestSuite]:
         return test_suites
 
 
-def execute_test(tested_cases: TestSuite, random_cases: TestSuite, fixed_cases: TestSuite) -> None:
+def execute_test(tested_cases: TestSuite, random_cases: TestSuite, fixed_cases: TestSuite, store: bool) -> None:
     """
-    Executes the three given test suites and prints the results at the end
+    Executes the three given test suites and gives out the results at the end
 
     :param tested_cases: Systematic test suite
     :param random_cases: Random test suite
     :param fixed_cases: Fixed test suite
+    :param store: Indicates whether to persistently store the result
     """
 
     start = time.perf_counter()
@@ -118,7 +120,7 @@ def execute_test(tested_cases: TestSuite, random_cases: TestSuite, fixed_cases: 
 
     end = time.perf_counter()
 
-    print(f"""
+    result_string: str = f"""
 
 =============================================================================================================
 =============================================================================================================
@@ -148,18 +150,25 @@ Total evaluation time was {end - start}s.
 =============================================================================================================
 =============================================================================================================
 
-""")
+"""
+    if store:
+        with open(RESULT_FILE_NAME, 'a+') as f:
+            f.write(result_string)
+
+    # Always print the result anyway
+    print(result_string)
 
 
-def visualize_testcases(suite: TestSuite) -> None:
+def visualize_testcases(suite: TestSuite, suffix: str) -> None:
     """
     Visualizes all testcases from the given test suite
 
     :param suite: Test suite to visualize
+    :param suffix: Identifier string for the test suite
     """
 
     for i, case in enumerate(suite.testcases):
-        case.visualize(f"test_cases/case{i}.png")
+        case.visualize(f"test_cases/{suffix}_case{i}.png")
 
 
 def main() -> None:
@@ -168,9 +177,11 @@ def main() -> None:
     """
 
     random.seed()
-    suites = generate_test_suites()
-    visualize_testcases(suites[0])
-    execute_test(suites[0], suites[1], suites[2])
+
+    for f_name in ["Suites1", "Suites2", "Suites3"]:
+        suites = generate_test_suites(f"test_suites/{f_name}.pkl")
+        visualize_testcases(suites[0], f_name)
+        execute_test(suites[0], suites[1], suites[2], True)
 
 
 def debug() -> None:
@@ -182,7 +193,7 @@ def debug() -> None:
     test_suite = TestSuite()
     print(test_suite.number_of_testcases)
     test_suite.generate_testcases()
-    visualize_testcases(test_suite)
+    visualize_testcases(test_suite, "debug_suite")
 
 
 if __name__ == "__main__":
