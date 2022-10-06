@@ -168,7 +168,7 @@ def update_landmark(particle, z, Q_cov):
     zp, Hv, Hf, Sf = compute_jacobians(particle, xf, Pf, Q)
 
     dz = z[0:2].reshape(2, 1) - zp
-    # dz[1, 0] = pi_2_pi(dz[1, 0])
+    # dz[1, 0] = pi_2_pi(dz[1, 0])                                  # Edited by PAPER AUTHORS to insert rotation fault
 
     xf, Pf = update_kf_with_cholesky(xf, Pf, dz, Q_cov, Hf)
 

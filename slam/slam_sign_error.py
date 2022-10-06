@@ -312,7 +312,7 @@ def motion_model(x, u):
                   [DT * math.sin(x[2, 0]), 0],
                   [0.0, DT]])
 
-    x = F @ x - B @ u
+    x = F @ x - B @ u                               # Sign changed by PAPER AUTHORS
 
     x[2, 0] = pi_2_pi(x[2, 0])
 

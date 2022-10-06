@@ -48,7 +48,7 @@ def fast_slam1(particles, u, z):
 
     particles = update_with_observation(particles, z)
 
-    particles = resampling(particles)
+    particles = resampling(particles)           # Edited by PAPER AUTHORS to use naive resampling instead
 
     return particles
 
