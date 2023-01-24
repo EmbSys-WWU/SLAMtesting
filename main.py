@@ -54,7 +54,7 @@ def generate_test_suites(f: str = None) -> List[TestSuite]:
 
 def execute_test(tested_cases: TestSuite, random_cases: TestSuite, fixed_cases: TestSuite, store: bool) -> None:
     """
-    Executes the three given test suites and gives out the results at the end
+    Executes the three given test suites and prints out the results at the end
 
     :param tested_cases: Systematic test suite
     :param random_cases: Random test suite
